@@ -14,7 +14,7 @@ function winCondition($turns) {
     if ($turns[3]!=0 && $turns[8]!=0 && $turns[13]!=0 && $turns[18]!=0 && $turns[23]!=0){ $gameOn++; }
     if ($turns[4]!=0 && $turns[9]!=0 && $turns[14]!=0 && $turns[19]!=0 && $turns[24]!=0){ $gameOn++; }
 
-    if ($turns[0]!=0 && $turns[6]!=0 && $turns[12]!=0 && $turns[18]!=0 && $turns[24]!=0){ $gameOn++; }
+    if ($turns[0]!=0 && $turns[6]!=0 && $turns[12]!=0 && $turs[18]!=0 && $turns[24]!=0){ $gameOn++; }
     if ($turns[4]!=0 && $turns[8]!=0 && $turns[12]!=0 && $turns[16]!=0 && $turns[20]!=0){ $gameOn++; }
     return $gameOn;
 }
@@ -79,7 +79,7 @@ if (isset($_GET['game']) && $_GET['game'] == 'login') {
     <?php
 }elseif (isset($_GET['game']) && $_GET['game'] == 'check') {
     $game_id=$_POST['game_id']/3333;
-    $stmt=mysqli_query ( $website, "SELECT * FROM game WHERE game_id = '".$game_id."' ") or die( mysqli_error ( $website ) );
+    $stmt=mysqli_query ( $website, "SELECT * FROM game WHERE game_id = '".$game_id."' AND completed = 0 ") or die( mysqli_error ( $website ) );
     echo mysqli_num_rows ($stmt);
 }elseif (isset($_GET['game']) && $_GET['game'] == 'insertDate') {
     $game_id=$_SESSION['game_id'];
@@ -124,6 +124,7 @@ if (isset($_GET['game']) && $_GET['game'] == 'login') {
         if (isset($row_winner_name) && !empty($row_winner_name)){ ?>
             <h2 class="bingo-winner"><?php echo writeBingo(5); ?></h2>
             <h3><?php echo $row_winner_name['username'];?> winner</h3>
+            <a href="index.php"><button class="btn">New Game</button></a>
         <?php }else{
         $stmt_bingo = mysqli_query($website, "SELECT * FROM start_game WHERE done = 1 AND game_id = '" . $_SESSION['game_id'] . "' AND user_id = '" . $_SESSION['user_id'] . "' ");
         $row_bingo = mysqli_fetch_assoc($stmt_bingo);
